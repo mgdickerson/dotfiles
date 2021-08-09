@@ -1,6 +1,6 @@
 "dein Scripts-----------------------------
 if &compatible
-  set nocompatible               " Be iMproved
+  set nocompatible               " Be improved
 endif
 
 " Required:
@@ -57,8 +57,11 @@ set mousehide
 set virtualedit=onemore
 set history=1000
 set hidden
+set spell
+
 
 " UI :
+set backspace=indent,eol,start
 set linespace=0
 set number
 set showmatch
@@ -67,16 +70,19 @@ set hlsearch
 set ignorecase
 set wildmenu
 set wildmode=list:longest,full
+set whichwrap=b,s,h,l,<,>,[,]
+set scrolloff=3
 set noshowmode
 set cursorline
+set list
 
 " Formatting :
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=2                " Use indents of 4 spaces
+set shiftwidth=4                " Use indents of 4 spaces
 set expandtab                   " Tabs are spaces, not tabs
-set tabstop=2                   " An indentation every four columns
-set softtabstop=2               " Let backspace delete indent
+set tabstop=4                   " An indentation every four columns
+set softtabstop=4               " Let backspace delete indent
 
 " OneDark Theme Settings :
 
