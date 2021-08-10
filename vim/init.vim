@@ -35,6 +35,8 @@ call dein#add('sheerun/vim-polyglot')     " Syntax Highlighting
 call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
+call dein#add('farmergreg/vim-lastplace')
+
 call dein#add('autozimu/LanguageClient-neovim', { 'rev': 'next', 'build': 'bash install.sh' })
 
 " Required:
@@ -128,7 +130,6 @@ let g:NERDTreeMinimalUI=1
 " }
 
 " OneDark Theme Settings {
-
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
 "(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
