@@ -19,12 +19,23 @@ endif
 
 " Add or remove your plugins here like this:
 call dein#add('joshdick/onedark.vim')     " OneDark Theme
-call dein#add('sheerun/vim-polyglot')     " Syntax Highlighting
+call dein#add('itchyny/lightline.vim')    " Bottom Bar Highlight
+
 call dein#add('scrooloose/nerdtree')      " NerdTree Folder Explorer
 call dein#add('scrooloose/nerdcommenter') " NerdCommenter for comments
 call dein#add('ryanoasis/vim-devicons')   " Additional NerdTree Icons
-call dein#add('itchyny/lightline.vim')    " Bottom Bar Highlight
+
+call dein#add('jreybert/vimagit')         " Magit Features in NVIM
 call dein#add('tpope/vim-fugitive')       " Git Features in NVIM
+
+call dein#add('rust-lang/rust.vim')       " Rust Vim Syntax
+call dein#add('cespare/vim-toml')         " TOML Vim Syntax
+call dein#add('sheerun/vim-polyglot')     " Syntax Highlighting
+
+call dein#add('junegunn/fzf', { 'build': './install --all', 'merged': 0 })
+call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+
+call dein#add('autozimu/LanguageClient-neovim', { 'rev': 'next', 'build': 'bash install.sh' })
 
 " Required:
 call dein#end()
@@ -40,7 +51,7 @@ endif
 
 "End dein Scripts-------------------------
 
-" Lightline config
+" Lightline Settings {
 let g:lightline = {
     \ 'active': {
     \   'left': [ [ 'mode', 'paste' ],
@@ -50,17 +61,19 @@ let g:lightline = {
     \   'gitbranch': 'fugitive#head'
     \ },
     \ }
+" }
 
-" Basic Settings :
+" Basic Settings {
 set mouse=a
 set mousehide
 set virtualedit=onemore
 set history=1000
 set hidden
 set spell
+set clipboard^=unnamed,unnamedplus
+" }
 
-
-" UI :
+" UI {
 set backspace=indent,eol,start
 set linespace=0
 set number
@@ -75,16 +88,46 @@ set scrolloff=3
 set noshowmode
 set cursorline
 set list
+" }
 
-" Formatting :
+" Formatting {
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
 set shiftwidth=4                " Use indents of 4 spaces
 set expandtab                   " Tabs are spaces, not tabs
 set tabstop=4                   " An indentation every four columns
 set softtabstop=4               " Let backspace delete indent
+" }
 
-" OneDark Theme Settings :
+" LanguageClient Settings {
+let g:LanguageClient_serverCommands = {
+    \ 'cpp' : ['clangd'],
+    \ 'rust' : ['rustup', 'run', 'stable', 'rls'],
+    \ }
+
+set signcolumn=yes
+nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <leader>r :call LanguageClient#textDocument_rename()<CR>
+let g:LanguageClient_selectionUI = 'fzf'
+" }
+
+" NerdTree Settings {
+let g:NERDTreeMinimalUI=1
+    map <C-e> <plug>NERDTreeTabsToggle<CR>
+    map <leader>e :NERDTreeFind<CR>
+    nmap <leader>nt :NERDTreeFind<CR>
+
+    "let NERDTreeIgnore=['^\.git$', '^\.svn$', '\~$]
+    let NERDTreeChDirMode=0
+    let NERDTreeQuitOnOpen=1
+    let NERDTreeMouseMode=2
+    let NERDTreeShowHidden=1
+    let NERDTreeKeepTreeInNewTab=1
+    let g:nerdtree_tabs_open_on_gui_startup=0
+" }
+
+" OneDark Theme Settings {
 
 "Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 "If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
@@ -105,3 +148,4 @@ endif
 set background=dark
 syntax on
 colorscheme onedark
+" }
