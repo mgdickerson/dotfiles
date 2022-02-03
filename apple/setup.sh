@@ -11,8 +11,12 @@ xcode-select --install
 # Check for Homebrew
 if test ! $(which brew); then
   echo "Installing Homebrew..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 fi
+
+# Make Homebrew accessible
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/glados/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Update Homebrew recipes
 echo "Updating Homebrew..."
