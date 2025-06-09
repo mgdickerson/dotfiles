@@ -1,0 +1,191 @@
+" Use plain vim
+" when vim was invoked by 'sudo' command
+" or, invoked as 'git difftool'
+if exists('$SUDO_USER') || exists('$GIT_DIR')
+  finish
+endif
+
+" =====================
+" Options
+" =====================
+
+" Set file encoding as UTF-8
+set encoding=utf-8
+" Enable true color
+if has('+termguicolors')
+  set termguicolors
+endif
+" Enable syntax highlighting (automatically disabled when tree-sitter is enabled)
+syntax enable
+
+" Enable mouse
+set mouse=a
+
+" Confirm on quit
+set confirm
+
+" Don't create backup
+set nobackup
+set nowritebackup
+" Disable swap file
+set noswapfile
+
+" Show column number
+set number
+
+" Ignore case in pattern
+" /caseinsensitive
+" /Casesensitive
+" /casesensitive\C
+" /Caseinsensitive\c
+set ignorecase
+set smartcase
+
+" Avoid jumping while typing a search term
+set noincsearch
+
+" Highlight column number on insert
+autocmd InsertEnter * set cursorline
+autocmd InsertLeave * set nocursorline
+
+" Visualize invisible string
+set list
+set listchars=tab:>\ ,trail:•,extends:>,precedes:<,nbsp:␣
+
+" Indentation
+set expandtab
+set shiftwidth=2
+set smarttab
+set autoindent
+
+autocmd FileType lua setlocal shiftwidth=4
+autocmd FileType c,cpp setlocal tabstop=2
+
+" Always display statusline.
+set laststatus=2
+
+" Yank text to system clipboard
+if has('unnamedplus')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
+
+" Set <Leader> as the space key
+let mapleader = " "
+
+" Load ctags if exists
+set tags=./tags;
+
+" Automatic word wrapping
+autocmd FileType c,cpp setlocal textwidth=79
+autocmd FileType gitcommit,mail setlocal textwidth=72
+set formatoptions-=ro formatoptions+=cqlt
+
+" Enable spell check
+set spelllang=en_us
+autocmd FileType text,gitcommit,mail,markdown setlocal spell complete+=kspell
+if !has('nvim')
+  highlight SpellBad cterm=italic,underline ctermfg=Red ctermbg=NONE gui=italic,underline guifg=Red guibg=NONE
+  highlight SpellCap cterm=italic,underline ctermfg=Blue ctermbg=NONE gui=italic,underline guifg=Blue guibg=NONE
+  highlight SpellRare cterm=italic,underline ctermfg=Red ctermbg=NONE gui=italic,underline guifg=Red guibg=NONE
+  highlight SpellLocal cterm=italic,underline ctermfg=Cyan ctermbg=NONE gui=italic,underline guifg=Cyan guibg=NONE
+endif
+
+" Save files when focus lost
+augroup AutoSaveOnFocusLost
+  autocmd!
+  autocmd FocusLost * silent! wa
+augroup END
+
+" Change background color when focus lost
+augroup FocusBackground
+  autocmd!
+  autocmd FocusLost * hi Normal guibg=#1A1C29  " bg + brightness
+  autocmd FocusGained * hi Normal guibg=#0F111A  " bg
+augroup END
+
+" =====================
+" Syntax
+" =====================
+
+
+" =====================
+" Key Mappings
+" =====================
+
+nnoremap x "_d
+nnoremap x "_D
+xnoremap x "_x
+onoremap x d
+
+" Select word
+onoremap i<space> iW
+xnoremap i<space> iW
+
+"
+" Normal Mode
+"
+
+" Treat ; as :
+nnoremap ; :
+
+" Visually move cursor
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" Move to the beginning of line
+nnoremap <S-h> ^
+" Move to the end of line
+nnoremap <S-l> $
+
+" Yank file path
+nnoremap yp :let @+=expand("%") \| :echo "Copied file path to clipboard"<Cr>
+" Yank absolute file path
+nnoremap yap :let @+=expand("%:p") \| :echo "Copied absolute file path to clipboard"<Cr>
+" Yank filename
+nnoremap yf :let @+=expand("%:t") \| :echo "Copied filename to clipboard"<Cr>
+
+" Yank until the line end
+nnoremap Y y$
+
+" Redo
+nnoremap U <c-r>
+
+" Automatic indentation when the line is empty
+nnoremap <expr> i empty(getline('.')) ? '"_cc' : 'i'
+nnoremap <expr> A empty(getline('.')) ? '"_cc' : 'A'
+
+" Expand :s to :%s///g
+cnoreabbrev <expr> s getcmdtype() .. getcmdline() ==# ':s' ? [getchar(), ''][1] .. "%s///g<Left><Left>" : 's'
+
+"
+" Insert Mode
+"
+
+" Escape with jj & kk
+inoremap jj <Esc>
+inoremap kk <Esc>
+
+"
+" Visual Mode
+"
+" Keep the current position after yank
+xnoremap y mzy`z
+
+" Allow continuous pastes
+xnoremap p P
+
+" Allow continuous indents
+xnoremap < <gv
+xnoremap > >gv
+
+"
+" Visual Mode & Select Mode
+"
+
+" Indent
+vnoremap <Tab> >gv
+vnoremap <S-Tab> <gv
